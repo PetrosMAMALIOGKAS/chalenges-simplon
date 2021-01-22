@@ -7,35 +7,39 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class S1_Exo5 {
+public class S1_Exo5_version1 {
 
 	public static void main(String[] args) {
 		ArrayList<Object> tokens = new ArrayList<Object>();
-		String s = "Here, we 'll change' the default \n configuration and create another example.";
+		
+		String s = "paok \n fekjfke !! $$ rrr";
 		try {
-			tokens = (ArrayList<Object>) streamTokenizerWithDefaultConfiguration(new StringReader(s));
-
-			
-		} catch (Exception e) {
+			tokens = (ArrayList<Object>) streamTokenizerWithCustomConfiguration(new StringReader(s));			
+		} 
+		catch (Exception e) {
 			System.out.println("Exception caught....");
 		}
-		System.out.println("number of words " + tokens.size());
-		for (Object tok: tokens) {
-			System.out.println(tok);
-		}
+		
+		String chaineWithoutLineBreaks = s.replaceAll("\\n", "");
+		
+		System.out.println(tokens.get(tokens.size() -1 ));
+		System.out.println("number of words " + (tokens.size() - 1));
+		System.out.println("Number of caracters " + chaineWithoutLineBreaks.length());
 	}
 	
-	private static final int QUOTE_CHARACTER = '\'';
-	private static final int DOUBLE_QUOTE_CHARACTER = '"';
-	
-	public static List<Object> streamTokenizerWithDefaultConfiguration(Reader reader) throws IOException {
+	public static List<Object> streamTokenizerWithCustomConfiguration(Reader reader) throws IOException {
 	    StreamTokenizer streamTokenizer = new StreamTokenizer(reader);
 	    List<Object> tokens = new ArrayList<Object>();
-	    
-	    //  The end of line counts 
+	  
+	    //  The end of line if detected, counts as a token
 	    streamTokenizer.eolIsSignificant(true);
+	    
+	    // define that these characters    !"# $%&(')+*,-./
+	    // counts as white spaces
+	    streamTokenizer.whitespaceChars(33, 47);
+	    
 	    int currentToken = streamTokenizer.nextToken();
-	    int numberOfLines = 0;
+	    int numberOfLines = 1;
 	    
 	    while (currentToken != StreamTokenizer.TT_EOF) {
 
@@ -46,10 +50,7 @@ public class S1_Exo5 {
 	            tokens.add(streamTokenizer.sval);
 	        } 
 	        else if (streamTokenizer.ttype == StreamTokenizer.TT_EOL) {
-	        	numberOfLines = numberOfLines + 1;
-	        }
-	        else if (streamTokenizer.ttype == QUOTE_CHARACTER || streamTokenizer.ttype == DOUBLE_QUOTE_CHARACTER)  {
-	        	// case of recursion ?
+	        	numberOfLines++;
 	        }
 	        else {
 	            tokens.add((char) currentToken);
@@ -57,8 +58,10 @@ public class S1_Exo5 {
 
 	        currentToken = streamTokenizer.nextToken();
 	    }
-	    tokens.add("lines " + String.valueOf(numberOfLines) );
+	    
+	    tokens.add("Number of lines " + String.valueOf(numberOfLines) );
 
 	    return tokens;
 	}
+ 
 }
