@@ -70,5 +70,15 @@ public class Clavier {
 		System.out.println("String = " + i);
 		return i;
 	}
+	
+	public static char readChar() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Give me an char..:");
+		char i = scanner.nextLine().charAt(0);
+		
+		System.out.println("char = " + i);
+		return i;
+		
+	}
 
 }
