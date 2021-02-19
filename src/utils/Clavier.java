@@ -28,14 +28,14 @@ public class Clavier {
 				System.out.println("Give me an Integer..:");
 				String nombre1 = scanner.nextLine();
 				i = Integer.parseInt(nombre1);
-				scanner.close();
 			} 
 			catch(Exception e){
+				// e.printStackTrace();
 				System.out.println("It must be an Integer");
 				flag = true;
 			}
 		}
-		System.out.println("integer = " + i);
+		// System.out.println("integer = " + i);
 		return i;
 	}
 	
@@ -65,7 +65,6 @@ public class Clavier {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Give me an String..:");
 		String i = scanner.nextLine();
-		scanner.close();
 		
 		System.out.println("String = " + i);
 		return i;
